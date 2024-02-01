@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weather App</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      text-align: center;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      background-color: #f5f5f5;
+    }
+
+    #weather-container {
+      max-width: 400px;
+      margin: 50px auto;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      color: #333;
+    }
+
+    #weather-info {
+      margin-top: 20px;
+    }
+
+    img {
+      max-width: 100px;
+    }
+
+    p {
+      margin: 5px 0;
+    }
+
+    input {
+      padding: 8px;
+    }
+
+    button {
+      padding: 8px 16px;
+      cursor: pointer;
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+
+<div id="weather-container">
+  <h1>Weather App</h1>
+  <label for="location">Enter Location:</label>
+  <input type="text" id="location" placeholder="Enter city name">
+  <button onclick="getWeather()">Get Weather</button>
+
+  <div id="weather-info"></div>
+</div>
+
+<script>
+  function getWeather() {
+    const apiKey = '6ab9f826c703250d6886d9272c3af3af';
+    const location = document.getElementById('location').value;
+
+    if (!location) {
+      alert('Please enter a location.');
+      return;
+    }
+
+    fetch(https://api.openweathermap.org/data/2.5/weather?q=${location}&appid=${apiKey})
+      .then(response => response.json())
+      .then(data => {
+        displayWeather(data);
+      })
+      .catch(error => {
+        console.error('Error fetching weather data:', error);
+        alert('Error fetching weather data. Please try again.');
+      });
+  }
+
+  function displayWeather(data) {
+    const weatherInfoContainer = document.getElementById('weather-info');
+    weatherInfoContainer.innerHTML = '';
+
+    const cityName = data.name;
+    const temperature = (data.main.temp - 273.15).toFixed(2);
+    const description = data.weather[0].description;
+    const icon = http://openweathermap.org/img/w/${data.weather[0].icon}.png;
+
+    const weatherInfo = document.createElement('div');
+    weatherInfo.innerHTML = `
+      <h2>${cityName}</h2>
+      <p>Temperature: ${temperature} °C</p>
+      <p>Description: ${description}</p>
+      <img src="${icon}" alt="Weather Icon">
+    `;
+
+    weatherInfoContainer.appendChild(weatherInfo);
+  }
+</script>
+
+</body>
+</html>
